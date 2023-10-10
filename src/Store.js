@@ -1,27 +1,42 @@
 import { configureStore, createSlice } from '@reduxjs/toolkit';
 
 
-const initialState = {
-  value: 0,
+const anyState = {
+  counter: 0,
+}
+
+const authState = {
+  user: null,
 }
 
 const counterSlice = createSlice({
   name: 'counter',
-  initialState: initialState,
+  initialState: anyState,
   reducers: {
     setCount: (state, action) => {
-      console.log('stateACTION', action);
-      state.value = action.payload;
+      state.counter = action.payload;
+    }
+  }
+})
+export const {setCount} = counterSlice.actions;
+
+const authSlice = createSlice({
+  name: 'auth',
+  initialState: authState,
+  reducers: {
+    setUser: (state, action) => {
+      state.user = action.payload;
     }
   }
 })
 
-export const {setCount} = counterSlice.actions;
+export const {setUser} = authSlice.actions;
 
 
 const store = configureStore({
   reducer: {
-    counter: counterSlice.reducer
+    counter: counterSlice.reducer,
+    auth: authSlice.reducer,
   }
 })
 

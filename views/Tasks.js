@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, TextInput, Button } from 'react-native';
-import { UseSelector, useDispatch, useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { setCount } from '../src/Store';
 
 export default function Tasks({ navigation }) {
@@ -26,7 +26,7 @@ export default function Tasks({ navigation }) {
         onPress={() => navigation.navigate('Users')}
       />
 
-      <Text style={styles.title}>{ counter.value }</Text>
+      <Text style={styles.title}>{ counter.counter }</Text>
       <Text style={styles.title}>{ val }</Text>
       <Text style={styles.title}>{ num }</Text>
       
