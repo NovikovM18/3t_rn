@@ -11,24 +11,20 @@ export default function Signin({ navigation }) {
   
   async function setAuthUser() {
     // setLoading(true);
-    const { user, error } = await supabase.auth.signInWithPassword({
-      email: email,
-      password: password,
-    });
-    if (user) {
-      console.log(user);
-      dispatch((setUser(user)));
+    const { data, error } = await supabase.auth.signInWithPassword({email, password});
+    console.log(data);
+    if (data.user) {
+      console.log(data.user);
+      dispatch((setUser(data.user)));
     }
-    if (!error && !user) {
-      alert("Check your email for the login link!");
-    }
+    // if (!error && !user) {
+    //   alert("Check your email for the login link!");
+    // }
     if (error) {
       console.log(error);
       alert(error);
     }
   };
-
-
 
   return (
     <View style={styles.container}>
