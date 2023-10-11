@@ -2,16 +2,33 @@ import { StyleSheet, Text, View, TextInput, Button } from 'react-native'
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { setUser } from '../../src/Store';
+import { supabase } from '../../src/Supabase';
 
 export default function Signin({ navigation }) {
-  const [mail, setMail] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
-
-  function setAuthUser() {
-    let user = {mail, password};
-    dispatch((setUser(user)));
+  
+  async function setAuthUser() {
+    // setLoading(true);
+    const { user, error } = await supabase.auth.signInWithPassword({
+      email: email,
+      password: password,
+    });
+    if (user) {
+      console.log(user);
+      dispatch((setUser(user)));
+    }
+    if (!error && !user) {
+      alert("Check your email for the login link!");
+    }
+    if (error) {
+      console.log(error);
+      alert(error);
+    }
   };
+
+
 
   return (
     <View style={styles.container}>
@@ -19,9 +36,9 @@ export default function Signin({ navigation }) {
 
       <TextInput 
         style={styles.input}
-        onChangeText={value => setMail(value)}
+        onChangeText={value => setEmail(value)}
       >
-        { mail }
+        { email }
       </TextInput>
 
       <TextInput 
@@ -32,7 +49,7 @@ export default function Signin({ navigation }) {
       </TextInput>
 
       <Button
-        disabled={!mail || !password}
+        disabled={!email || !password}
         title="signin"
         onPress={setAuthUser}
       />

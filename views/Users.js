@@ -1,13 +1,25 @@
+import { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, Button } from 'react-native';
+import { supabase } from '../src/Supabase';
 
 export default function Users({ navigation }) {
+  const [users, setUsers] = useState([]);
+
+  async function getUsers() {
+    const { data } = await supabase.from("users").select();
+    console.log(data);
+    if (data) {
+      setUsers(data);
+    };
+  };
+
   return (
     <View style={styles.container}>
-      <Button
-        title="Go to Tasks"
-        onPress={() => navigation.navigate('Tasks')}
-      />
       <Text>users</Text>
+      <Button
+        title="Get users"
+        onPress={() => getUsers()}
+      />
     </View>
   )
 }

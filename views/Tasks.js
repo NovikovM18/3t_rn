@@ -21,10 +21,6 @@ export default function Tasks({ navigation }) {
 
   return (
      <View style={styles.container}>
-      <Button
-        title="Go to Users"
-        onPress={() => navigation.navigate('Users')}
-      />
 
       <Text style={styles.title}>{ counter.counter }</Text>
       <Text style={styles.title}>{ val }</Text>

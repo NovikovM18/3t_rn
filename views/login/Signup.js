@@ -41,7 +41,7 @@ export default function Signup({ navigation }) {
 
       <Button
         disabled={!name || !mail || !password}
-        title="signin"
+        title="signup"
         onPress={setAuthUser}
       />
 

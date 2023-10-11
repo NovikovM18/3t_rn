@@ -1,14 +1,20 @@
 import { StyleSheet, View, Button, Text } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUser } from '../src/Store';
+import { supabase } from '../src/Supabase';
 
 export default function Home({ navigation }) {
   const dispatch = useDispatch();
 
   const user = useSelector((state) => state.auth.user);
-
-  function logout() {
-    dispatch(setUser(null));
+  
+  async function logout() {
+    const { error } = await supabase.auth.signOut();
+    if (!error) {
+      dispatch(setUser(null));
+    } else {
+      alert(error.message);
+    };
   };
 
 
