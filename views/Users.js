@@ -1,13 +1,18 @@
-import { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, Button } from 'react-native';
+import { useEffect, useState } from 'react';
+import { StyleSheet, Text, View, TextInput, Button, ScrollView, FlatList } from 'react-native';
 import { supabase } from '../src/Supabase';
 
 export default function Users({ navigation }) {
   const [users, setUsers] = useState([]);
 
+  useEffect(() => {
+    getUsers();
+  
+    return () => {}
+  }, []);
+  
   async function getUsers() {
     const { data } = await supabase.from("users").select();
-    console.log(data);
     if (data) {
       setUsers(data);
     };
@@ -16,17 +21,33 @@ export default function Users({ navigation }) {
   return (
     <View style={styles.container}>
       <Text>users</Text>
-      <Button
-        title="Get users"
-        onPress={() => getUsers()}
-      />
+
+      {users.length > 0 && 
+        <FlatList
+          style={styles.list}
+          data={users}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) =>
+            <View style={styles.list_item}>
+              <View>
+                <Text>{item.name}</Text>
+                <Text>{item.role}</Text>
+              </View>
+              <Button
+                title="info"
+                onPress={() => console.log(item)}
+              />
+            </View> 
+          }
+        />
+      }
     </View>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
-    // padding: 20,
+    padding: 4,
     // paddingTop: 36,
     flex: 1,
     flexDirection: 'column',
@@ -34,4 +55,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  list: {
+    width: '100%',
+  },
+  list_item: {
+    marginTop: 4,
+    padding: 12,
+    width: '100%',
+    height: 56,
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    borderRadius: 8,
+    backgroundColor: 'lightblue',
+  }
 })

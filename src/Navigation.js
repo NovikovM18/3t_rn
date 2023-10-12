@@ -11,6 +11,7 @@ const Stack = createNativeStackNavigator();
 
 export default function Navigation() {
   const auth = useSelector((state) => state.auth.user);
+  console.log(auth);
   return (
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Home">
